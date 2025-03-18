@@ -51,6 +51,23 @@ function show(req, res){
 
 
 
+function update(req, res) {
+    const {id} = req.params
+    const {image} =req.body
+
+    const sql = 'UPDATE movies SET image = ? WHERE id = ?'
+
+    connection.query(sql, [image,id], (err) =>{
+        if(err) return req.status(500).json({
+            error: 'Errore lato server DESTROY funzion'
+        })
+        res.json({ message: "Movies update succes"})
+})
+
+}
+
+
+
 
 function destroy(req, res){
 
@@ -71,4 +88,4 @@ function destroy(req, res){
 
 }
 
-export{index, show, destroy}
+export{index, show, destroy, update}
