@@ -88,4 +88,26 @@ function destroy(req, res){
 
 }
 
-export{index, show, destroy, update}
+
+function storRewiew(req, res){
+    const {id} = req.params
+
+    const {text, name, vote} = req.body
+
+    const sql = 'INSERT INTO reviews (text , name, vote, movie_id) VALUES (?,?,?,?)'
+
+    connection.query(sql, [text, name, vote, id],(err, results)=>{
+        if(err) return res.status(500).json({
+            error: 'Database Error StoreReview'
+        })
+
+        res.status(201)
+        res.json({
+            message: 'review Added',
+            id: results.insertId
+        })
+    })
+
+}
+
+export{index, show, destroy, update, storRewiew}
