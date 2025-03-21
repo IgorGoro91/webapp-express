@@ -1,7 +1,9 @@
 import express from 'express'
 
+import upload from '../middlewares/multer.js'
+
 const router = express.Router()
-import {index, show, destroy, update, storRewiew} from '../controllers/moviesController.js'
+import {index, show, destroy, update, storeRewiew, store} from '../controllers/moviesController.js'
 
 import ImagePathMiddleware from '../middlewares/imagePath.js'
 
@@ -23,7 +25,11 @@ router.patch('/:id', update)
 
 
 //localhost:5000/movies/:id/reviews
-router.post( '/:id/reviews', storRewiew)
+router.post( '/:id/reviews', storeRewiew)
+
+
+//localhost:5000/movies
+router.post('/', upload.single('image'), store)
 
 
 export default router

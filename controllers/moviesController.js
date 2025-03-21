@@ -89,7 +89,7 @@ function destroy(req, res){
 }
 
 
-function storRewiew(req, res){
+function storeRewiew(req, res){
     const {id} = req.params
 
     const {text, name, vote} = req.body
@@ -110,4 +110,28 @@ function storRewiew(req, res){
 
 }
 
-export{index, show, destroy, update, storRewiew}
+
+function store(req,res){
+    //recuparare le info da req.body
+    const { title, director, abstract} = req.body
+
+    const imageName = `${req.file.filename}`
+
+    const sql = "INSERT INTO movies (title, director, image, abstract) VALUES (?,?,?,?)"
+
+    connection.query( sql, [title, director, imageName, abstract], (err, results) => {
+        if(err) return res.status(500).json({
+            error: 'Database Errore Store'
+        })
+
+        res.status(201).json({
+            status: "success",
+            message: "Movies creato con successo",
+            id: results.insertId
+        }
+        )
+    })
+
+}
+
+export{index, show, destroy, update, storeRewiew, store}
